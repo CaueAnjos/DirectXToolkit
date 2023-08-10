@@ -1,2 +1,7 @@
-﻿  Messager.cpp
-  DXTK.vcxproj -> C:\Users\kawid\source\repos\ChickenGame\x64\Debug\DXTK.lib
+﻿  App.cpp
+  Engine.cpp
+  ImputComponent.cpp
+  Messager.cpp
+  Window.cpp
+  Generating Code...
+  DXTK.vcxproj -> C:\Users\kawid\OneDrive\Área de Trabalho\repo\testedegit\x64\Debug\DXTK.lib
