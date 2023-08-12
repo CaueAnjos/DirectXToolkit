@@ -2,6 +2,10 @@
 #include "Types.h"
 #include <functional>
 
+/*
+	TODO:don't use Messager, make a better solution.
+	->https://www.youtube.com/watch?v=onQxeQa1ebo&list=PLX6Nyaq0ebfgTrw6BlgBpPwM3F7I4UMyA&index=4
+*/
 
 namespace dxtk
 {

@@ -39,10 +39,7 @@ namespace dxtk
             return 0;
 
         default:
-            if(distribute(Msg, wParam, lParam))
-            {
-                return 1;
-            }
+            distribute(Msg, wParam, lParam);
         }
         return DefWindowProc(hWnd, Msg, wParam, lParam);
     };
