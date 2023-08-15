@@ -1,5 +1,6 @@
 #pragma once
-#include "DXTK.h"
+#include "Types.h"
+#include "Messager.h"
 
 enum WINDOW_MODES
 {
