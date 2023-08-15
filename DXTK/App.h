@@ -18,16 +18,16 @@ namespace dxtk
 
 		Window* window()
 		{
-			return m_window;
+			return s_pWindow;
 		}
 
 		InputComponent* input()
 		{
-			return m_input;
+			return s_pInput;
 		}
 
 	private:
-		Window* m_window;
-		InputComponent* m_input;
+		Window* s_pWindow;
+		InputComponent* s_pInput;
 	};
 }

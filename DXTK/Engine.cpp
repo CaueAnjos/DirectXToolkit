@@ -1,32 +1,36 @@
 #include "Engine.h"
+#include "Window.h"
+#include "App.h"
+#include "ImputComponent.h"
 
 namespace dxtk
 {
-	Engine* Engine::s_engine = new Engine;
+	Window* Engine::s_pWindow = nullptr;
+	InputComponent* Engine::s_pInput = nullptr;
+	App* Engine::s_pApp = nullptr;
 
 	Engine::Engine()
-		: m_window(nullptr), m_input(nullptr), m_app(nullptr)
 	{
-		m_window = new Window;
-		m_input = new InputComponent(m_window);
+		s_pWindow = new Window;
+		s_pInput = new InputComponent(s_pWindow);
 	}
 
 	Engine::~Engine()
 	{
-		delete m_app;
-		delete m_input;
-		delete m_window;
+		delete s_pApp;
+		delete s_pInput;
+		delete s_pWindow;
 	}
 
 	int Engine::run(App* aplication)
 	{
-		m_app = aplication;
-		m_window->create();
+		s_pApp = aplication;
+		s_pWindow->create();
 
-		m_window->messager().bindAction(WM_PAINT,
+		s_pWindow->messager().bindAction(WM_PAINT,
 			[this](Window* wnd, WPARAM wParam, LPARAM lParam)
 			{
-				m_app->display();
+				s_pApp->display();
 			});
 
 		return loop();
@@ -35,7 +39,7 @@ namespace dxtk
 	int Engine::loop()
 	{
 		MSG msg = { 0 };
-		m_app->init();
+		s_pApp->init();
 
 		do
 		{
@@ -46,12 +50,12 @@ namespace dxtk
 			}
 			else
 			{
-				m_app->update();
-				m_app->draw();
+				s_pApp->update();
+				s_pApp->draw();
 			}
 		} while(msg.message != WM_QUIT);
 
-		m_app->finalize();
+		s_pApp->finalize();
 		return (int)msg.wParam;
 	}
 }

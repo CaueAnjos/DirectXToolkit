@@ -5,7 +5,7 @@ namespace dxtk
 {
 	App::App()
 	{
-		m_window = Engine::get()->window();
-		m_input = Engine::get()->input();
+		s_pWindow = Engine::window();
+		s_pInput = Engine::input();
 	}
 }
