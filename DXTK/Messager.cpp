@@ -3,11 +3,18 @@
 
 namespace dxtk
 {
-    Window* Messager::s_owner = nullptr;
+    Messager* Messager::s_messagerList[MAX_SIZE] = {nullptr};
+    int Messager::s_nlast = 0;
 
-    Messager::Messager(Window* owner)
+    Messager::Messager()
+        : pOwner(nullptr)
     {
-        s_owner = owner;
+        if(s_nlast < MAX_SIZE)
+        {
+            s_messagerList[s_nlast] = this;
+            bindAction(WM_DESTROY, onDestroy);
+            s_nlast++;
+        }
     }
 
     bool Messager::registred(uint32_t message) const
@@ -18,28 +25,19 @@ namespace dxtk
             return false;
     }
 
-    bool Messager::distribute(uint32_t message, WPARAM wParam, LPARAM lParam)
+    void Messager::onDestroy(Window* wnd, WPARAM wParam, LPARAM lParam)
     {
-        const Messager& messager = s_owner->messager();
-        if(messager.registred(message))
-        {
-            MessageAction action = messager.get(message);
-            action(s_owner, wParam, lParam);
-            return true;
-        }
-        return false;
+        PostQuitMessage(0);
     }
 
     LRESULT CALLBACK Messager::procedure(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam)
     {
-        switch(Msg)
+        for(const auto& pAt : s_messagerList)
         {
-        case WM_DESTROY:
-            PostQuitMessage(0);
-            return 0;
-
-        default:
-            distribute(Msg, wParam, lParam);
+            if(pAt && pAt->registred(Msg))
+            {
+                pAt->call(Msg)(pAt->pOwner, wParam, lParam);
+            }
         }
         return DefWindowProc(hWnd, Msg, wParam, lParam);
     };
