@@ -30,6 +30,7 @@ namespace dxtk
         PostQuitMessage(0);
     }
 
+    //this is a comment
     LRESULT CALLBACK Messager::procedure(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam)
     {
         for(const auto& pAt : s_messagerList)
