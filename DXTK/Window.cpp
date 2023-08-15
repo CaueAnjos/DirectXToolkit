@@ -3,8 +3,8 @@
 namespace dxtk
 {
     Window::Window()
-        : m_messager(this)
     {
+        m_messager.pOwner = this;
         m_hWnd = NULL;
 
 	    m_bg.r = 255;
