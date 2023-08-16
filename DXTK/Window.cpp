@@ -4,64 +4,63 @@ namespace dxtk
 {
     Window::Window()
     {
-        m_messager.pOwner = this;
-        m_hWnd = NULL;
+        hWnd = NULL;
 
-	    m_bg.r = 255;
-	    m_bg.g = 255;
-	    m_bg.b = 255;
+	    bg.r = 255;
+	    bg.g = 255;
+	    bg.b = 255;
 
-	    m_icon = NULL;
-	    m_cursor = NULL;
-	    m_instance = GetModuleHandle(NULL);
+	    wndIcon = NULL;
+	    wndCursor = NULL;
+	    wndInstance = GetModuleHandle(NULL);
 
-	    m_sTitle = "WindosApp";
+	    sTitle = "WindosApp";
 
-        m_style = WS_POPUP | WS_VISIBLE;
-        m_mode = FULLSCREEN;
+        unStyle = WS_POPUP | WS_VISIBLE;
+        wndMode = FULLSCREEN;
 
-        m_height = GetSystemMetrics(SM_CYSCREEN);
-        m_width = GetSystemMetrics(SM_CXSCREEN);
+        unHeight = GetSystemMetrics(SM_CYSCREEN);
+        unWidth = GetSystemMetrics(SM_CXSCREEN);
     }
 
     void Window::mode(WINDOW_MODES mode)
     {
-        m_mode = mode;
+        mode = mode;
         if(mode == WINDOWED)
         {
-            m_style = WS_OVERLAPPED | WS_SYSMENU | WS_VISIBLE;
+            unStyle = WS_OVERLAPPED | WS_SYSMENU | WS_VISIBLE;
         }
         else
         {
-            m_style = WS_EX_TOPMOST | WS_POPUP | WS_VISIBLE;
+            unStyle = WS_EX_TOPMOST | WS_POPUP | WS_VISIBLE;
         }
     }
 
     void Window::size(uint32_t w, uint32_t h)
     {
-        m_width = w;
-        m_height = h;
+        unWidth = w;
+        unHeight = h;
 
-        m_x = (GetSystemMetrics(SM_CXSCREEN) / 2 ) - (m_width / 2);
-        m_y = (GetSystemMetrics(SM_CYSCREEN) / 2 ) - (m_height / 2);
+        x = (GetSystemMetrics(SM_CXSCREEN) / 2 ) - (unWidth / 2);
+        y = (GetSystemMetrics(SM_CYSCREEN) / 2 ) - (unHeight / 2);
     }
 
     void Window::print(const char* text, int x, int y, Color color)
     {
-        HDC xdc = GetDC(m_hWnd);
+        HDC xdc = GetDC(hWnd);
         SetTextColor(xdc, color());
         SetBkMode(xdc, TRANSPARENT);
         TextOut(xdc, x, y, text, (int)strlen(text));
-        ReleaseDC(m_hWnd, xdc);
+        ReleaseDC(hWnd, xdc);
     }
 
     void Window::clear()
     {
-        HDC xdc = GetDC(m_hWnd);
+        HDC xdc = GetDC(hWnd);
         RECT area;
-        GetClientRect(m_hWnd, &area);
-        FillRect(xdc, &area, CreateSolidBrush(m_bg()));
-        ReleaseDC(m_hWnd, xdc);
+        GetClientRect(hWnd, &area);
+        FillRect(xdc, &area, CreateSolidBrush(bg()));
+        ReleaseDC(hWnd, xdc);
     }
 
     bool Window::create()
@@ -69,16 +68,16 @@ namespace dxtk
         WNDCLASSEX wc;
         wc.cbSize = sizeof WNDCLASSEX;
         wc.style = CS_DBLCLKS | CS_OWNDC | CS_HREDRAW | CS_VREDRAW;
-        wc.lpfnWndProc = m_messager.winProc();
+        wc.lpfnWndProc = wndProc;
         wc.cbClsExtra = 0;
         wc.cbWndExtra = 0;
-        wc.hInstance = m_instance;
-        wc.hIcon = m_icon;
-        wc.hCursor = m_cursor;
-        wc.hbrBackground = CreateSolidBrush(m_bg());
+        wc.hInstance = wndInstance;
+        wc.hIcon = wndIcon;
+        wc.hCursor = wndCursor;
+        wc.hbrBackground = CreateSolidBrush(bg());
         wc.lpszMenuName = NULL;
-        wc.lpszClassName = m_sTitle.c_str();
-        wc.hIconSm = m_icon;
+        wc.lpszClassName = sTitle.c_str();
+        wc.hIconSm = wndIcon;
 
         if(!RegisterClassEx(&wc))
         {
@@ -87,42 +86,53 @@ namespace dxtk
 
         // Create the window.
 
-        m_hWnd = CreateWindowEx(
+        hWnd = CreateWindowEx(
             0,                              // Optional window styles.
-            m_sTitle.c_str(),                     // Window class
-            m_sTitle.c_str(),    // Window text
-            m_style,            // Window style
+            sTitle.c_str(),                     // Window class
+            sTitle.c_str(),    // Window text
+            unStyle,            // Window style
 
             // Size and position
-            m_x, m_y, m_width, m_height,
+            x, y, unWidth, unHeight,
 
             NULL,       // Parent window    
             NULL,       // Menu
-            m_instance,  // Instance handle
+            wndInstance,  // Instance handle
             NULL        // Additional application data
         );
 
-        if(m_mode == WINDOWED)
+        if(wndMode == WINDOWED)
         {
-            RECT client = { 0, 0, (long)m_width, (long)m_height };
+            RECT client = { 0, 0, (long)unWidth, (long)unHeight };
             AdjustWindowRectEx(&client, 
-                GetWindowStyle(m_hWnd), 
-                GetMenu(m_hWnd) != NULL, 
-                GetWindowExStyle(m_hWnd));
+                GetWindowStyle(hWnd), 
+                GetMenu(hWnd) != NULL, 
+                GetWindowExStyle(hWnd));
 
-            m_x = (GetSystemMetrics(SM_CXSCREEN) / 2) - (m_width / 2);
-            m_y = (GetSystemMetrics(SM_CYSCREEN) / 2) - (m_height / 2);
+            x = (GetSystemMetrics(SM_CXSCREEN) / 2) - (unWidth / 2);
+            y = (GetSystemMetrics(SM_CYSCREEN) / 2) - (unHeight / 2);
 
-            MoveWindow(m_hWnd, m_x, m_y, 
+            MoveWindow(hWnd, x, y, 
                 client.right - client.left, 
                 client.bottom - client.top, 
                 TRUE);
         }
 
-        if(m_hWnd == NULL)
+        if(hWnd == NULL)
         {
             return false;
         }
         return true;
+    }
+
+    LRESULT Window::wndProc(HWND wnd, UINT msg, WPARAM wParam, LPARAM lParam)
+    {
+        switch(msg)
+        {
+        case WM_DESTROY:
+            PostQuitMessage(0);
+            return 0;
+        }
+        return DefWindowProc(wnd, msg, wParam, lParam);
     }
 }

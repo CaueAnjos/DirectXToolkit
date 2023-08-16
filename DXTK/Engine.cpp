@@ -5,41 +5,47 @@
 
 namespace dxtk
 {
-	Window* Engine::s_pWindow = nullptr;
-	InputComponent* Engine::s_pInput = nullptr;
-	App* Engine::s_pApp = nullptr;
+	Window* Engine::pWindow = nullptr;
+	InputComponent* Engine::pInput = nullptr;
+	App* Engine::pApp = nullptr;
 
 	Engine::Engine()
 	{
-		s_pWindow = new Window;
-		s_pInput = new InputComponent(s_pWindow);
+		pWindow = new Window;
+		pInput = new InputComponent(pWindow);
+
+		SetWindowLongPtr(GetActiveWindow(), GWLP_WNDPROC, (LONG_PTR)Engine::engineProc);
 	}
 
 	Engine::~Engine()
 	{
-		delete s_pApp;
-		delete s_pInput;
-		delete s_pWindow;
+		delete pApp;
+		delete pInput;
+		delete pWindow;
 	}
 
 	int Engine::run(App* aplication)
 	{
-		s_pApp = aplication;
-		s_pWindow->create();
-
-		s_pWindow->messager().bindAction(WM_PAINT,
-			[this](Window* wnd, WPARAM wParam, LPARAM lParam)
-			{
-				s_pApp->display();
-			});
-
+		pApp = aplication;
+		pWindow->create();
 		return loop();
+	}
+
+	LRESULT CALLBACK Engine::engineProc(HWND wnd, UINT msg, WPARAM wParam, LPARAM lParam)
+	{
+		switch(msg)
+		{
+		case WM_PAINT:
+			pApp->display();
+			return 0;
+		}
+		return CallWindowProc(InputComponent::inputProc, wnd, msg, wParam, lParam);
 	}
 
 	int Engine::loop()
 	{
 		MSG msg = { 0 };
-		s_pApp->init();
+		pApp->init();
 
 		do
 		{
@@ -50,12 +56,12 @@ namespace dxtk
 			}
 			else
 			{
-				s_pApp->update();
-				s_pApp->draw();
+				pApp->update();
+				pApp->draw();
 			}
 		} while(msg.message != WM_QUIT);
 
-		s_pApp->finalize();
+		pApp->finalize();
 		return (int)msg.wParam;
 	}
 }

@@ -3,130 +3,84 @@
 
 namespace dxtk
 {
+	Key InputComponent::inputBuffer[256] = { 0 };
+	Mouse InputComponent::mouse;
+
 	InputComponent::InputComponent(Window* owner)
-		: m_owner(owner), m_active(false)/*, m_inputBuffer(), m_mouse()*/
+		: pOwner(owner), active(true)
 	{
-		activate();
+		SetWindowLongPtr(GetActiveWindow(), GWLP_WNDPROC, (LONG_PTR)InputComponent::inputProc);
 	}
 
 	InputComponent::~InputComponent()
 	{
-		if(m_active)
-		{
-			deactivate();
-		}
+		SetWindowLongPtr(GetActiveWindow(), GWLP_WNDPROC, (LONG_PTR)Window::wndProc);
+		active = false;
 	}
 
 	bool InputComponent::keyPressed(int vkey)
 	{
-		if(m_inputBuffer[vkey].ctrl)
+		if(active)
 		{
-			if(keyDown(vkey))
+			if(inputBuffer[vkey].ctrl)
 			{
-				m_inputBuffer[vkey].ctrl = false;
-				return true;
+				if(keyDown(vkey))
+				{
+					inputBuffer[vkey].ctrl = false;
+					return true;
+				}
 			}
-		}
-		else if(keyUp(vkey))
-		{
-			m_inputBuffer[vkey].ctrl = true;
+			else if(keyUp(vkey))
+			{
+				inputBuffer[vkey].ctrl = true;
+			}
 		}
 		return false;
 	}
 
 	short InputComponent::MouseWheel()
 	{
-		auto ret = m_mouse.wheel;
-		m_mouse.wheel = 0;
+		auto ret = mouse.wheel;
+		mouse.wheel = 0;
 		return ret;
 	}
 
-	void InputComponent::activate()
+	LRESULT CALLBACK InputComponent::inputProc(HWND wnd, UINT msg, WPARAM wParam, LPARAM lParam)
 	{
-		m_active = true;
-
-		auto downFunc = [this](Window* wnd, WPARAM wParam, LPARAM lParam)
+		switch(msg)
 		{
-			switch(wParam)
-			{
-			case MK_MBUTTON:
-				m_inputBuffer[VK_MBUTTON].down = true;
-				break;
-
-			case MK_RBUTTON:
-				m_inputBuffer[VK_RBUTTON].down = true;
-				break;
-
-			case MK_LBUTTON:
-				m_inputBuffer[VK_LBUTTON].down = true;
-				break;
-
-			default:
-				m_inputBuffer[wParam].down = true;
-				break;
-			}
-		};
-
-		auto upFunc = [this](Window* wnd, WPARAM wParam, LPARAM lParam)
-		{
-			switch(wParam)
-			{
-			case MK_MBUTTON:
-				m_inputBuffer[VK_MBUTTON].down = false;
-				break;
-
-			case MK_RBUTTON:
-				m_inputBuffer[VK_RBUTTON].down = false;
-				break;
-
-			case MK_LBUTTON:
-				m_inputBuffer[VK_LBUTTON].down = false;
-				break;
-
-			default:
-				m_inputBuffer[wParam].down = false;
-				break;
-			}
-		};
-
-		m_owner->messager().bindAction(WM_KEYDOWN, downFunc);
-		m_owner->messager().bindAction(WM_KEYUP, upFunc);
-						 
-		m_owner->messager().bindAction(WM_LBUTTONDOWN, downFunc);
-		m_owner->messager().bindAction(WM_LBUTTONUP, upFunc);
-						 
-		m_owner->messager().bindAction(WM_RBUTTONDOWN, downFunc);
-		m_owner->messager().bindAction(WM_RBUTTONUP, upFunc);
-						 
-		m_owner->messager().bindAction(WM_MBUTTONDOWN, downFunc);
-		m_owner->messager().bindAction(WM_MBUTTONUP, upFunc);
-						 
-		m_owner->messager().bindAction(WM_MOUSEMOVE,
-			[this](Window* wnd, WPARAM wParam, LPARAM lParam)
-			{
-				m_mouse.x = GET_X_LPARAM(lParam);
-				m_mouse.y = GET_Y_LPARAM(lParam);
-			});
-
-		m_owner->messager().bindAction(WM_MOUSEWHEEL,
-			[this](Window* wnd, WPARAM wParam, LPARAM lParam)
-			{
-				m_mouse.wheel = GET_WHEEL_DELTA_WPARAM(wParam);
-			});
-	}
-
-	void InputComponent::deactivate()
-	{
-		m_active = false;
-		m_owner->messager().unbindAction(WM_KEYDOWN);
-		m_owner->messager().unbindAction(WM_KEYUP);
-		m_owner->messager().unbindAction(WM_LBUTTONDOWN);
-		m_owner->messager().unbindAction(WM_LBUTTONUP);
-		m_owner->messager().unbindAction(WM_RBUTTONDOWN);
-		m_owner->messager().unbindAction(WM_RBUTTONUP);
-		m_owner->messager().unbindAction(WM_MBUTTONDOWN);
-		m_owner->messager().unbindAction(WM_MBUTTONUP);
-		m_owner->messager().unbindAction(WM_MOUSEMOVE);
-		m_owner->messager().unbindAction(WM_MOUSEWHEEL);
+			case WM_KEYDOWN:
+				inputBuffer[wParam].down = true;
+				return 0;
+			case WM_KEYUP:
+				inputBuffer[wParam].down = false;
+				return 0;
+			case WM_LBUTTONDOWN:
+				inputBuffer[VK_LBUTTON].down = true;
+				return 0;
+			case WM_LBUTTONUP:
+				inputBuffer[VK_LBUTTON].down = false;
+				return 0;
+			case WM_RBUTTONDOWN:
+				inputBuffer[VK_RBUTTON].down = true;
+				return 0;
+			case WM_RBUTTONUP:
+				inputBuffer[VK_LBUTTON].down = false;
+				return 0;
+			case WM_MBUTTONDOWN:
+				inputBuffer[VK_MBUTTON].down = true;
+				return 0;
+			case WM_MBUTTONUP:
+				inputBuffer[VK_MBUTTON].down = false;
+				return 0;
+			case WM_MOUSEMOVE:
+				mouse.x = GET_X_LPARAM(lParam);
+				mouse.y = GET_Y_LPARAM(lParam);
+				return 0;
+			case WM_MOUSEWHEEL:
+				mouse.wheel = GET_WHEEL_DELTA_WPARAM(wParam);
+				return 0;
+		}
+		return CallWindowProc(Window::wndProc, wnd, msg, wParam, lParam);
 	}
 }
