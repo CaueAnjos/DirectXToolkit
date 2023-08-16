@@ -14,6 +14,7 @@ namespace dxtk
 
 	InputComponent::~InputComponent()
 	{
+		//comme
 		SetWindowLongPtr(GetActiveWindow(), GWLP_WNDPROC, (LONG_PTR)Window::wndProc);
 		active = false;
 	}
