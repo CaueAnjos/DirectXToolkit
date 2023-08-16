@@ -1,4 +1,5 @@
 #pragma once
+#include "Types.h"
 
 namespace dxtk
 {
@@ -17,19 +18,21 @@ namespace dxtk
 
 		static Window* window()
 		{
-			return s_pWindow;
+			return pWindow;
 		}
 
 		static InputComponent* input()
 		{
-			return s_pInput;
+			return pInput;
 		}
+
+		static LRESULT CALLBACK engineProc(HWND, UINT, WPARAM, LPARAM);
 
 	protected:
 		int loop();
 
-		static Window* s_pWindow;
-		static InputComponent* s_pInput;
-		static App* s_pApp;
+		static Window* pWindow;
+		static InputComponent* pInput;
+		static App* pApp;
 	};
 }

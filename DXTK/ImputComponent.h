@@ -1,4 +1,5 @@
 #pragma once
+#include "Types.h"
 
 namespace dxtk
 {
@@ -20,22 +21,20 @@ namespace dxtk
 		InputComponent(Window* owner);
 		~InputComponent();
 
-		bool keyDown(int vkey) { return m_inputBuffer[vkey].down; }
-		bool keyUp(int vkey) { return !(m_inputBuffer[vkey].down); }
+		bool keyDown(int vkey) { return active ? inputBuffer[vkey].down : false; }
+		bool keyUp(int vkey) { return active ? !(inputBuffer[vkey].down) : false; }
 		bool keyPressed(int vkey);
 
-		int MouseX() { return m_mouse.x; }
-		int MouseY() { return m_mouse.y; }
+		int MouseX() { return mouse.x; }
+		int MouseY() { return mouse.y; }
 		short MouseWheel();
 
-		void activate();
-		void deactivate();
-		bool active() { return m_active; }
+		static LRESULT CALLBACK inputProc(HWND, UINT, WPARAM, LPARAM);
 
+		bool active;
 	protected:
-		Key m_inputBuffer[256];
-		Mouse m_mouse;
-		bool m_active;
-		Window* m_owner;
+		static Key inputBuffer[256];
+		static Mouse mouse;
+		Window* pOwner;
 	};
 }
