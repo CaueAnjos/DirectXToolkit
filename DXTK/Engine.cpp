@@ -12,7 +12,6 @@ namespace dxtk
 	Engine::Engine()
 	{
 		pWindow = new Window;
-		pInput = new InputComponent(pWindow);
 	}
 
 	Engine::~Engine()
@@ -26,6 +25,8 @@ namespace dxtk
 	{
 		pApp = aplication;
 		pWindow->create();
+
+		pInput = new InputComponent(pWindow);
 
 		SetWindowLongPtr(GetActiveWindow(), GWLP_WNDPROC, (LONG_PTR)Engine::engineProc);
 		return loop();
