@@ -4,8 +4,10 @@
 
 namespace dxtk
 {
+	class Engine;
 	class App
 	{
+		friend Engine;
 	public:
 		App() : pWindow(nullptr), pInput(nullptr)
 		{}
@@ -27,6 +29,7 @@ namespace dxtk
 			return pInput;
 		}
 
+	protected:
 		Window* pWindow;
 		InputComponent* pInput;
 	};
