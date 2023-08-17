@@ -9,12 +9,12 @@ namespace dxtk
 	InputComponent::InputComponent(Window* owner)
 		: pOwner(owner), active(true)
 	{
-		SetWindowLongPtr(GetActiveWindow(), GWLP_WNDPROC, (LONG_PTR)InputComponent::inputProc);
+		SetWindowLongPtr(pOwner->id(), GWLP_WNDPROC, (LONG_PTR)InputComponent::inputProc);
 	}
 
 	InputComponent::~InputComponent()
 	{
-		SetWindowLongPtr(GetActiveWindow(), GWLP_WNDPROC, (LONG_PTR)Window::wndProc);
+		SetWindowLongPtr(pOwner->id(), GWLP_WNDPROC, (LONG_PTR)Window::wndProc);
 		active = false;
 	}
 

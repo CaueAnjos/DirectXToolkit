@@ -152,7 +152,6 @@
     <ClInclude Include="Window.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="App.cpp" />
     <ClCompile Include="Engine.cpp" />
     <ClCompile Include="ImputComponent.cpp" />
     <ClCompile Include="Window.cpp" />

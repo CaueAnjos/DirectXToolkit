@@ -7,7 +7,8 @@ namespace dxtk
 	class App
 	{
 	public:
-		App();
+		App() : pWindow(nullptr), pInput(nullptr)
+		{}
 
 		virtual void init() = 0;
 		virtual	void update() = 0;
@@ -18,16 +19,15 @@ namespace dxtk
 
 		Window* window()
 		{
-			return s_pWindow;
+			return pWindow;
 		}
 
 		InputComponent* input()
 		{
-			return s_pInput;
+			return pInput;
 		}
 
-	private:
-		Window* s_pWindow;
-		InputComponent* s_pInput;
+		Window* pWindow;
+		InputComponent* pInput;
 	};
 }

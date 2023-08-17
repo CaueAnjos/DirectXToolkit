@@ -28,18 +28,18 @@ namespace dxtk
 
 		pInput = new InputComponent(pWindow);
 
-		SetWindowLongPtr(GetActiveWindow(), GWLP_WNDPROC, (LONG_PTR)Engine::engineProc);
+		pApp->pWindow = pWindow;
+		pApp->pInput = pInput;
+
+		SetWindowLongPtr(pWindow->id(), GWLP_WNDPROC, (LONG_PTR)Engine::engineProc);
 		return loop();
 	}
 
 	LRESULT CALLBACK Engine::engineProc(HWND wnd, UINT msg, WPARAM wParam, LPARAM lParam)
 	{
-		switch(msg)
-		{
-		case WM_PAINT:
+		if(msg == WM_PAINT)
 			pApp->display();
-			return 0;
-		}
+
 		return CallWindowProc(InputComponent::inputProc, wnd, msg, wParam, lParam);
 	}
 
