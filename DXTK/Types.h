@@ -4,6 +4,7 @@
 #include <windowsx.h>
 #include <cstdint>
 #include <string>
+#include <sstream>
 #include <map>
 #include <vector>
 #include <utility>

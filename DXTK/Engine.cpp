@@ -10,6 +10,7 @@ namespace dxtk
 	App* Engine::pApp = nullptr;
 
 	Engine::Engine()
+		: fDeltaTime(0.f)
 	{
 		pWindow = new Window;
 	}
@@ -35,6 +36,38 @@ namespace dxtk
 		return loop();
 	}
 
+	float Engine::frameTime()
+	{
+#if _DEBUG
+		static float fTotalTime = 0.f;
+		static uint32_t unFrameCount = 0;
+#endif
+
+		fDeltaTime = timer.reset();
+
+#if _DEBUG
+		fTotalTime += fDeltaTime;
+		unFrameCount++;
+
+		if(fTotalTime >= 1.f)
+		{
+			std::stringstream text;
+			text << std::fixed;
+			text.precision(3);
+
+			text << pWindow->title().c_str() << "   "
+				<< "FPS: " << unFrameCount << "   "
+				<< "Frame Time: " << fDeltaTime * 1000 << "(ms)";
+
+			SetWindowText(pWindow->id(), text.str().c_str());
+
+			unFrameCount = 0;
+			fTotalTime -= 1.f;
+		}
+#endif 
+		return fDeltaTime;
+	}
+
 	LRESULT CALLBACK Engine::engineProc(HWND wnd, UINT msg, WPARAM wParam, LPARAM lParam)
 	{
 		if(msg == WM_PAINT)
@@ -57,8 +90,12 @@ namespace dxtk
 			}
 			else
 			{
+				fDeltaTime = frameTime();
+
 				pApp->update();
 				pApp->draw();
+
+				MsgWaitForMultipleObjects(0, NULL, FALSE, 10, QS_ALLINPUT);
 			}
 		} while(msg.message != WM_QUIT);
 

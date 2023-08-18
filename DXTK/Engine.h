@@ -1,11 +1,13 @@
 #pragma once
 #include "Types.h"
+#include "Timer.h"
 
 namespace dxtk
 {
 	class App;
 	class Window;
 	class InputComponent;
+	class Timer;
 
 	class Engine
 	{
@@ -15,6 +17,8 @@ namespace dxtk
 		~Engine();
 
 		int run(App* aplication);
+
+		float frameTime();
 
 		static Window* window()
 		{
@@ -34,5 +38,8 @@ namespace dxtk
 		static Window* pWindow;
 		static InputComponent* pInput;
 		static App* pApp;
+
+		Timer timer;
+		float fDeltaTime;
 	};
 }
