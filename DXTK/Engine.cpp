@@ -34,9 +34,6 @@ namespace dxtk
 
 		pInput = new InputComponent(pWindow);
 
-		pApp->pWindow = pWindow;
-		pApp->pInput = pInput;
-
 		SetWindowLongPtr(pWindow->id(), GWLP_WNDPROC, (LONG_PTR)Engine::engineProc);
 		return loop();
 	}

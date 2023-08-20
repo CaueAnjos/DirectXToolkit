@@ -1,17 +1,14 @@
 #pragma once
-#include "Window.h"
-#include "ImputComponent.h"
+#include "Engine.h"
 
 namespace dxtk
 {
-	class Engine;
+	class Window;
+	class InputComponent;
+
 	class App
 	{
-		friend Engine;
 	public:
-		App() : pWindow(nullptr), pInput(nullptr)
-		{}
-
 		virtual void init() = 0;
 		virtual	void update() = 0;
 		virtual	void finalize() = 0;
@@ -21,16 +18,12 @@ namespace dxtk
 
 		Window* window()
 		{
-			return pWindow;
+			return Engine::pCurrent->window();
 		}
 
 		InputComponent* input()
 		{
-			return pInput;
+			return Engine::pCurrent->input();
 		}
-
-	private:
-		Window* pWindow;
-		InputComponent* pInput;
 	};
 }
