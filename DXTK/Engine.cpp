@@ -46,6 +46,7 @@ namespace dxtk
 		fDeltaTime = timer.reset();
 
 #if _DEBUG
+
 		fTotalTime += fDeltaTime;
 		unFrameCount++;
 
@@ -78,6 +79,8 @@ namespace dxtk
 
 	int Engine::loop()
 	{
+		timer.start();
+
 		MSG msg = { 0 };
 		pApp->init();
 
