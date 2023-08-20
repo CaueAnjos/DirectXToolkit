@@ -29,7 +29,7 @@ namespace dxtk
 			return pInput;
 		}
 
-	protected:
+	private:
 		Window* pWindow;
 		InputComponent* pInput;
 	};

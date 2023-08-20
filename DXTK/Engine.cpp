@@ -5,13 +5,13 @@
 
 namespace dxtk
 {
-	Window* Engine::pWindow = nullptr;
-	InputComponent* Engine::pInput = nullptr;
-	App* Engine::pApp = nullptr;
+	Engine* Engine::pCurrent = nullptr;
 
 	Engine::Engine()
-		: fDeltaTime(0.f)
+		: fDeltaTime(0.f), pWindow(nullptr), pInput(nullptr), pApp(nullptr)
 	{
+		pCurrent = this;
+
 		pWindow = new Window;
 	}
 
@@ -20,6 +20,11 @@ namespace dxtk
 		delete pApp;
 		delete pInput;
 		delete pWindow;
+
+		if(pCurrent == this)
+		{
+			pCurrent = nullptr;
+		}
 	}
 
 	int Engine::run(App* aplication)
@@ -72,7 +77,7 @@ namespace dxtk
 	LRESULT CALLBACK Engine::engineProc(HWND wnd, UINT msg, WPARAM wParam, LPARAM lParam)
 	{
 		if(msg == WM_PAINT)
-			pApp->display();
+			pCurrent->pApp->display();
 
 		return CallWindowProc(InputComponent::inputProc, wnd, msg, wParam, lParam);
 	}

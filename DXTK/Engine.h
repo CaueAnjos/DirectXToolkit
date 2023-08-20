@@ -16,16 +16,18 @@ namespace dxtk
 		Engine(const Engine&) = delete;
 		~Engine();
 
+		static Engine* pCurrent;
+
 		int run(App* aplication);
 
 		float frameTime();
 
-		static Window* window()
+		Window* window()
 		{
 			return pWindow;
 		}
 
-		static InputComponent* input()
+		InputComponent* input()
 		{
 			return pInput;
 		}
@@ -35,9 +37,9 @@ namespace dxtk
 	protected:
 		int loop();
 
-		static Window* pWindow;
-		static InputComponent* pInput;
-		static App* pApp;
+		Window* pWindow;
+		InputComponent* pInput;
+		App* pApp;
 
 		Timer timer;
 		float fDeltaTime;
