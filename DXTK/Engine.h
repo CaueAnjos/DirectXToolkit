@@ -43,5 +43,7 @@ namespace dxtk
 
 		Timer timer;
 		float fDeltaTime;
+
+		bool bFocus;
 	};
 }
