@@ -8,7 +8,7 @@ namespace dxtk
 	Engine* Engine::pCurrent = nullptr;
 
 	Engine::Engine()
-		: fDeltaTime(0.f), pWindow(nullptr), pInput(nullptr), pApp(nullptr)
+		: fDeltaTime(0.f), pWindow(nullptr), pInput(nullptr), pApp(nullptr), bFocus(false)
 	{
 		pCurrent = this;
 
@@ -76,6 +76,17 @@ namespace dxtk
 		if(msg == WM_PAINT)
 			pCurrent->pApp->display();
 
+		switch(msg)
+		{
+		case WM_SETFOCUS:
+			pCurrent->bFocus = true;
+			pCurrent->timer.start();
+			return 0;
+		case WM_KILLFOCUS:
+			pCurrent->bFocus = false;
+			pCurrent->timer.stop();
+			return 0;
+		}
 		return CallWindowProc(InputComponent::inputProc, wnd, msg, wParam, lParam);
 	}
 
