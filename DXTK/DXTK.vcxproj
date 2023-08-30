@@ -172,6 +172,7 @@
     <ClInclude Include="DXTK.h" />
     <ClInclude Include="Engine.h" />
     <ClInclude Include="Error.h" />
+    <ClInclude Include="Graphics.h" />
     <ClInclude Include="ImputComponent.h" />
     <ClInclude Include="Timer.h" />
     <ClInclude Include="Types.h" />
@@ -180,6 +181,7 @@
   <ItemGroup>
     <ClCompile Include="Engine.cpp" />
     <ClCompile Include="Error.cpp" />
+    <ClCompile Include="Graphics.cpp" />
     <ClCompile Include="ImputComponent.cpp" />
     <ClCompile Include="Timer.cpp" />
     <ClCompile Include="Window.cpp" />

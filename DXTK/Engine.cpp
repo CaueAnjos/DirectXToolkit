@@ -2,23 +2,31 @@
 #include "Window.h"
 #include "App.h"
 #include "ImputComponent.h"
+#include "Graphics.h"
 
 namespace dxtk
 {
 	Engine* Engine::pCurrent = nullptr;
 
 	Engine::Engine()
-		: fDeltaTime(0.f), pWindow(nullptr), pInput(nullptr), pApp(nullptr), bFocus(false)
+		: fDeltaTime(0.f),
+		pWindow(nullptr),
+		pInput(nullptr),
+		pGraphic(nullptr),
+		pApp(nullptr),
+		bFocus(false)
 	{
 		pCurrent = this;
 
 		pWindow = new Window;
+		pGraphic = new Graphics;
 	}
 
 	Engine::~Engine()
 	{
 		delete pApp;
 		delete pInput;
+		delete pGraphic;
 		delete pWindow;
 
 		if(pCurrent == this)
@@ -33,6 +41,8 @@ namespace dxtk
 		pWindow->create();
 
 		pInput = new InputComponent(pWindow);
+
+		pGraphic->Initialize(pWindow);
 
 		SetWindowLongPtr(pWindow->id(), GWLP_WNDPROC, (LONG_PTR)Engine::engineProc);
 		return loop();

@@ -8,6 +8,7 @@ namespace dxtk
 	class Window;
 	class InputComponent;
 	class Timer;
+	class Graphics;
 
 	class Engine
 	{
@@ -39,6 +40,7 @@ namespace dxtk
 
 		Window* pWindow;
 		InputComponent* pInput;
+		Graphics* pGraphic;
 		App* pApp;
 
 		Timer timer;

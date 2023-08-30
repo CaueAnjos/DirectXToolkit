@@ -5,4 +5,5 @@
 #include "ImputComponent.h"
 #include "Window.h"
 #include "App.h"
+#include "Graphics.h"
 #include "Engine.h"
