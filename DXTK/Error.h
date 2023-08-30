@@ -17,11 +17,11 @@ namespace dxtk
 		int nLine;
 	};
 
-#ifndef throwIfFailed
-#define throwIfFailed(x)\
-{\
-HRESULT hErrorCode = (x)\
-if(FAILED(hErrorCode)) { throw Error(hErrorCode, __func__, __FILE__, __LINE__)}\
+#ifndef ThrowIfFailed
+#define ThrowIfFailed(x)                                               \
+{                                                                      \
+    HRESULT hr = (x);                                                  \
+    if(FAILED(hr)) { throw Error(hr, __func__, __FILE__, __LINE__); }  \
 }
 #endif
 }
