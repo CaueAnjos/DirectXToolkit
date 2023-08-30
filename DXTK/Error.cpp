@@ -20,13 +20,13 @@ namespace dxtk
 
 	String Error::description() const
 	{
-		_com_error err(hErrorCode);
+		_com_error error(hErrorCode);
 
 		std::stringstream text;
 		text << sFunction
 			<< " falhou em " << sFile
 			<< ", linha " << std::to_string(nLine)
-			<< ":\n" << err.ErrorMessage();
+			<< ":\n" << error.ErrorMessage();
 
 		return text.str();
 	}
