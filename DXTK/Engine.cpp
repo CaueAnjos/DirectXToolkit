@@ -14,7 +14,7 @@ namespace dxtk
 		pInput(nullptr),
 		pGraphic(nullptr),
 		pApp(nullptr),
-		bFocus(false)
+		bPaused(false)
 	{
 		pCurrent = this;
 
@@ -89,12 +89,10 @@ namespace dxtk
 		switch(msg)
 		{
 		case WM_SETFOCUS:
-			pCurrent->bFocus = true;
-			pCurrent->timer.start();
+			pCurrent->resume();
 			return 0;
 		case WM_KILLFOCUS:
-			pCurrent->bFocus = false;
-			pCurrent->timer.stop();
+			pCurrent->pause();
 			return 0;
 		}
 		return CallWindowProc(InputComponent::inputProc, wnd, msg, wParam, lParam);
@@ -116,12 +114,27 @@ namespace dxtk
 			}
 			else
 			{
-				fDeltaTime = frameTime();
+				if(input()->keyPressed(VK_PAUSE))
+				{
+					if(bPaused)
+						resume();
+					else
+						pause();
+				}
 
-				pApp->update();
-				pApp->draw();
+				if(!bPaused)
+				{
+					fDeltaTime = frameTime();
 
-				MsgWaitForMultipleObjects(0, NULL, FALSE, 10, QS_ALLINPUT);
+					pApp->update();
+					pApp->draw();
+
+					MsgWaitForMultipleObjects(0, NULL, FALSE, 10, QS_ALLINPUT);
+				}
+				else
+				{
+					pApp->whilePaused();
+				}
 			}
 		} while(msg.message != WM_QUIT);
 

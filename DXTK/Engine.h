@@ -35,6 +35,18 @@ namespace dxtk
 
 		static LRESULT CALLBACK engineProc(HWND, UINT, WPARAM, LPARAM);
 
+		void  pause()
+		{
+			pCurrent->bPaused = true;
+			pCurrent->timer.stop();
+		}
+
+		void resume()
+		{
+			pCurrent->bPaused = false;
+			pCurrent->timer.start();
+		}
+
 	protected:
 		int loop();
 
@@ -46,6 +58,6 @@ namespace dxtk
 		Timer timer;
 		float fDeltaTime;
 
-		bool bFocus;
+		bool bPaused;
 	};
 }
