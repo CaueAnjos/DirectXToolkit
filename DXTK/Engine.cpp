@@ -128,8 +128,6 @@ namespace dxtk
 
 					pApp->update();
 					pApp->draw();
-
-					MsgWaitForMultipleObjects(0, NULL, FALSE, 10, QS_ALLINPUT);
 				}
 				else
 				{
