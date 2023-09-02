@@ -33,6 +33,11 @@ namespace dxtk
 			return pInput;
 		}
 
+		Graphics* graphic()
+		{
+			return pGraphic;
+		}
+
 		static LRESULT CALLBACK engineProc(HWND, UINT, WPARAM, LPARAM);
 
 		void  pause()
