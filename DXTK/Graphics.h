@@ -12,7 +12,7 @@ namespace dxtk
         Graphics();								
         ~Graphics();
 
-        void Initialize(Window* window);
+        void initialize(Window* window);
 
         bool bVSync;
         void clear(ID3D12PipelineState* pso);

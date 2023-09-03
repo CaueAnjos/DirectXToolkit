@@ -42,7 +42,7 @@ namespace dxtk
 
 		pInput = new InputComponent(pWindow);
 
-		pGraphic->Initialize(pWindow);
+		pGraphic->initialize(pWindow);
 
 		SetWindowLongPtr(pWindow->id(), GWLP_WNDPROC, (LONG_PTR)Engine::engineProc);
 		return loop();

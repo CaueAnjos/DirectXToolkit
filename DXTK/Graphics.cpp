@@ -182,7 +182,7 @@ namespace dxtk
 		if(pOutput) pOutput->Release();
 	}
 
-	void Graphics::Initialize(Window* window)
+	void Graphics::initialize(Window* window)
 	{
 		uint32_t factoryFlags = 0;
 
