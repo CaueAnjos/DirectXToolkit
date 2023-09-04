@@ -16,7 +16,7 @@ int APIENTRY WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance,
 
 #define END_CONFIG \
 }\
-catch(const Error& error)\
+catch(const dxtk::Error& error)\
 {\
     MessageBox(nullptr, error.description().c_str(), "DXTK Error", MB_OK);\
     return 0;\
