@@ -15,6 +15,7 @@ namespace dxtk
 
 		virtual void draw() {}
 		virtual void display() {}
+		virtual void whilePaused() {}
 
 		Window* window()
 		{

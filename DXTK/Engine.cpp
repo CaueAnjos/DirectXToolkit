@@ -2,23 +2,31 @@
 #include "Window.h"
 #include "App.h"
 #include "ImputComponent.h"
+#include "Graphics.h"
 
 namespace dxtk
 {
 	Engine* Engine::pCurrent = nullptr;
 
 	Engine::Engine()
-		: fDeltaTime(0.f), pWindow(nullptr), pInput(nullptr), pApp(nullptr), bFocus(false)
+		: fDeltaTime(0.f),
+		pWindow(nullptr),
+		pInput(nullptr),
+		pGraphic(nullptr),
+		pApp(nullptr),
+		bPaused(false)
 	{
 		pCurrent = this;
 
 		pWindow = new Window;
+		pGraphic = new Graphics;
 	}
 
 	Engine::~Engine()
 	{
 		delete pApp;
 		delete pInput;
+		delete pGraphic;
 		delete pWindow;
 
 		if(pCurrent == this)
@@ -33,6 +41,8 @@ namespace dxtk
 		pWindow->create();
 
 		pInput = new InputComponent(pWindow);
+
+		pGraphic->initialize(pWindow);
 
 		SetWindowLongPtr(pWindow->id(), GWLP_WNDPROC, (LONG_PTR)Engine::engineProc);
 		return loop();
@@ -76,17 +86,6 @@ namespace dxtk
 		if(msg == WM_PAINT)
 			pCurrent->pApp->display();
 
-		switch(msg)
-		{
-		case WM_SETFOCUS:
-			pCurrent->bFocus = true;
-			pCurrent->timer.start();
-			return 0;
-		case WM_KILLFOCUS:
-			pCurrent->bFocus = false;
-			pCurrent->timer.stop();
-			return 0;
-		}
 		return CallWindowProc(InputComponent::inputProc, wnd, msg, wParam, lParam);
 	}
 
@@ -106,12 +105,25 @@ namespace dxtk
 			}
 			else
 			{
-				fDeltaTime = frameTime();
+				if(input()->keyPressed(VK_PAUSE))
+				{
+					if(bPaused)
+						resume();
+					else
+						pause();
+				}
 
-				pApp->update();
-				pApp->draw();
+				if(!bPaused)
+				{
+					fDeltaTime = frameTime();
 
-				MsgWaitForMultipleObjects(0, NULL, FALSE, 10, QS_ALLINPUT);
+					pApp->update();
+					pApp->draw();
+				}
+				else
+				{
+					pApp->whilePaused();
+				}
 			}
 		} while(msg.message != WM_QUIT);
 

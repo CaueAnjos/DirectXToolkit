@@ -8,6 +8,7 @@ namespace dxtk
 	class Window;
 	class InputComponent;
 	class Timer;
+	class Graphics;
 
 	class Engine
 	{
@@ -32,18 +33,36 @@ namespace dxtk
 			return pInput;
 		}
 
+		Graphics* graphic()
+		{
+			return pGraphic;
+		}
+
 		static LRESULT CALLBACK engineProc(HWND, UINT, WPARAM, LPARAM);
+
+		void  pause()
+		{
+			pCurrent->bPaused = true;
+			pCurrent->timer.stop();
+		}
+
+		void resume()
+		{
+			pCurrent->bPaused = false;
+			pCurrent->timer.start();
+		}
 
 	protected:
 		int loop();
 
 		Window* pWindow;
 		InputComponent* pInput;
+		Graphics* pGraphic;
 		App* pApp;
 
 		Timer timer;
 		float fDeltaTime;
 
-		bool bFocus;
+		bool bPaused;
 	};
 }
