@@ -21,7 +21,7 @@ namespace dxtk
 #define ThrowIfFailed(x)                                               \
 {                                                                      \
     HRESULT hr = (x);                                                  \
-    if(FAILED(hr)) { throw Error(hr, __func__, __FILE__, __LINE__); }  \
+    if(FAILED(hr)) { throw dxtk::Error(hr, __func__, __FILE__, __LINE__); }  \
 }
 #endif
 }

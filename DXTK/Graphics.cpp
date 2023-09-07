@@ -552,9 +552,4 @@ namespace dxtk
 		barrier.Transition.Subresource = D3D12_RESOURCE_BARRIER_ALL_SUBRESOURCES;
 		pCommandList->ResourceBarrier(1, &barrier);
 	}
-
-	ID3D12Device4* Graphics::device()
-	{
-		
-	}
 }
