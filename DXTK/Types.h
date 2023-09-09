@@ -7,6 +7,7 @@
 #include <sstream>
 #include <map>
 #include <vector>
+#include <array>
 #include <utility>
 
 #include "Color.h"
