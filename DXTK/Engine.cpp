@@ -9,26 +9,16 @@ namespace dxtk
 	Engine* Engine::pCurrent = nullptr;
 
 	Engine::Engine()
-		: fDeltaTime(0.f),
-		pWindow(nullptr),
-		pInput(nullptr),
-		pGraphic(nullptr),
-		pApp(nullptr),
-		bPaused(false)
+		: fDeltaTime(0.f), bPaused(false), pApp(nullptr)
 	{
 		pCurrent = this;
 
-		pWindow = new Window;
-		pGraphic = new Graphics;
+		pWindow = std::make_unique<Window>();
+		pGraphic = std::make_unique<Graphics>();
 	}
 
 	Engine::~Engine()
 	{
-		delete pApp;
-		delete pInput;
-		delete pGraphic;
-		delete pWindow;
-
 		if(pCurrent == this)
 		{
 			pCurrent = nullptr;
@@ -40,9 +30,9 @@ namespace dxtk
 		pApp = aplication;
 		pWindow->create();
 
-		pInput = new InputComponent(pWindow);
+		pInput = std::make_unique<InputComponent>(pWindow.get());
 
-		pGraphic->initialize(pWindow);
+		pGraphic->initialize(pWindow.get());
 
 		SetWindowLongPtr(pWindow->id(), GWLP_WNDPROC, (LONG_PTR)Engine::engineProc);
 		return loop();

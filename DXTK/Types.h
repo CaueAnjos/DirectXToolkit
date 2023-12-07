@@ -9,6 +9,7 @@
 #include <vector>
 #include <array>
 #include <utility>
+#include <memory>
 
 #include "Color.h"
 

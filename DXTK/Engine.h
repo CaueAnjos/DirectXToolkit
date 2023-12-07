@@ -25,17 +25,17 @@ namespace dxtk
 
 		Window* window()
 		{
-			return pWindow;
+			return pWindow.get();
 		}
 
 		InputComponent* input()
 		{
-			return pInput;
+			return pInput.get();
 		}
 
 		Graphics* graphic()
 		{
-			return pGraphic;
+			return pGraphic.get();
 		}
 
 		static LRESULT CALLBACK engineProc(HWND, UINT, WPARAM, LPARAM);
@@ -55,9 +55,9 @@ namespace dxtk
 	protected:
 		int loop();
 
-		Window* pWindow;
-		InputComponent* pInput;
-		Graphics* pGraphic;
+		std::unique_ptr<Window> pWindow;
+		std::unique_ptr<InputComponent> pInput;
+		std::unique_ptr<Graphics> pGraphic;
 		App* pApp;
 
 		Timer timer;
