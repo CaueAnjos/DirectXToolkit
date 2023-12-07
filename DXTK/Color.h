@@ -98,6 +98,7 @@ namespace dxtk
 			c.g = vec4.y;
 			c.b = vec4.z;
 			c.a = vec4.w;
+			return c;
 		}
 
 		DirectX::XMFLOAT4 vec4;

@@ -346,12 +346,12 @@ namespace dxtk
 
 		scissorRect = { 0, 0, (long)window->width(), (long)window->height() };
 
-		ColorRGB color = window->color().getRGB();
+		ColorRGBA color = window->color().getRGBA();
 
-		bgColor[0] = color.r / 255.0f;
-		bgColor[1] = color.g / 255.0f;
-		bgColor[2] = color.b / 255.0f;
-		bgColor[3] = 1.0f;                     
+		bgColor[0] = color.r;
+		bgColor[1] = color.g;
+		bgColor[2] = color.b;
+		bgColor[3] = color.a;
 	}
 
 	void Graphics::clear(ID3D12PipelineState* pso)
