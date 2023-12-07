@@ -346,8 +346,7 @@ namespace dxtk
 
 		scissorRect = { 0, 0, (long)window->width(), (long)window->height() };
 
-		// TODO: use the convert method
-		Color color = window->color();
+		ColorRGB color = window->color().getRGB();
 
 		bgColor[0] = color.r / 255.0f;
 		bgColor[1] = color.g / 255.0f;

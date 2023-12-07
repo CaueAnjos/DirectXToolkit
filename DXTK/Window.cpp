@@ -6,9 +6,7 @@ namespace dxtk
     {
         hWnd = NULL;
 
-	    bg.r = 255;
-	    bg.g = 255;
-	    bg.b = 255;
+        bg = ColorRGB(255, 255, 255);
 
 	    wndIcon = NULL;
 	    wndCursor = NULL;
@@ -45,10 +43,10 @@ namespace dxtk
         y = (GetSystemMetrics(SM_CYSCREEN) / 2 ) - (unHeight / 2);
     }
 
-    void Window::print(const char* text, int x, int y, Color color)
+    void Window::print(const char* text, int x, int y, ColorEx color)
     {
         HDC xdc = GetDC(hWnd);
-        SetTextColor(xdc, color());
+        SetTextColor(xdc, color.getRGB()());
         SetBkMode(xdc, TRANSPARENT);
         TextOut(xdc, x, y, text, (int)strlen(text));
         ReleaseDC(hWnd, xdc);
@@ -59,7 +57,7 @@ namespace dxtk
         HDC xdc = GetDC(hWnd);
         RECT area;
         GetClientRect(hWnd, &area);
-        FillRect(xdc, &area, CreateSolidBrush(bg()));
+        FillRect(xdc, &area, CreateSolidBrush(bg.getRGB()()));
         ReleaseDC(hWnd, xdc);
     }
 
@@ -74,7 +72,7 @@ namespace dxtk
         wc.hInstance = wndInstance;
         wc.hIcon = wndIcon;
         wc.hCursor = wndCursor;
-        wc.hbrBackground = CreateSolidBrush(bg());
+        wc.hbrBackground = CreateSolidBrush(bg.getRGB()());
         wc.lpszMenuName = NULL;
         wc.lpszClassName = sTitle.c_str();
         wc.hIconSm = wndIcon;

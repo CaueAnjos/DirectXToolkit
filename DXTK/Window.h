@@ -15,13 +15,13 @@ namespace dxtk
 
 		void mode(WINDOW_MODES mode);
 		void size(uint32_t w, uint32_t h);
-		void color(Color color) { bg = color; }
+		void color(ColorEx color) { bg = color; }
 		void title(const char* text) { sTitle = text; }
 		void icon(uint32_t id) { wndIcon = LoadIcon(wndInstance, MAKEINTRESOURCE(id)); }
 		void cursor(uint32_t id) { wndCursor = LoadCursor(wndInstance, MAKEINTRESOURCE(id)); }
 
 		void hideCursor(bool hide) { ShowCursor(!hide); }
-		void print(const char* text, int x, int y, Color color);
+		void print(const char* text, int x, int y, ColorEx color);
 		void clear();
 		void close() { PostMessage(hWnd, WM_DESTROY, 0, 0); }
 		bool create();
@@ -33,7 +33,7 @@ namespace dxtk
 		uint32_t centerY() const { return unHeight / 2; }
 		WINDOW_MODES mode() const { return wndMode; }
 		const String& title() const { return sTitle; }
-		Color color() const { return bg; }
+		ColorEx color() const { return bg; }
 
 		static LRESULT CALLBACK wndProc(HWND, UINT, WPARAM, LPARAM);
 
@@ -46,7 +46,7 @@ namespace dxtk
 
 		WINDOW_MODES wndMode;
 		HWND hWnd;
-		Color bg;
+		ColorEx bg;
 		HICON wndIcon;
 		HCURSOR wndCursor;
 		HINSTANCE wndInstance;
