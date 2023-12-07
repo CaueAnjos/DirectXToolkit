@@ -14,7 +14,7 @@ namespace dxtk
 		Window();
 
 		void mode(WINDOW_MODES mode);
-		void size(uint32_t w, uint32_t h);
+		void size(int32_t w, int32_t h);
 		void color(ColorEx color) { bg = color; }
 		void title(const char* text) { sTitle = text; }
 		void icon(uint32_t id) { wndIcon = LoadIcon(wndInstance, MAKEINTRESOURCE(id)); }
@@ -27,22 +27,22 @@ namespace dxtk
 		bool create();
 
 		HWND id() const { return hWnd; }
-		uint32_t height() const { return unHeight; }
-		uint32_t width() const { return unWidth; }
-		uint32_t centerX() const { return unWidth / 2; }
-		uint32_t centerY() const { return unHeight / 2; }
+		int32_t height() const { return nHeight; }
+		int32_t width() const { return nWidth; }
+		int32_t centerX() const { return nWidth / 2; }
+		int32_t centerY() const { return nHeight / 2; }
 		WINDOW_MODES mode() const { return wndMode; }
 		const String& title() const { return sTitle; }
 		ColorEx color() const { return bg; }
 
 		static LRESULT CALLBACK wndProc(HWND, UINT, WPARAM, LPARAM);
 
-	protected:
-		uint32_t unHeight;
-		uint32_t unWidth;
+	private:
+		int32_t nHeight;
+		int32_t nWidth;
 
-		int x;
-		int y;
+		int32_t x;
+		int32_t y;
 
 		WINDOW_MODES wndMode;
 		HWND hWnd;

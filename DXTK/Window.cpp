@@ -17,8 +17,8 @@ namespace dxtk
         unStyle = WS_POPUP | WS_VISIBLE;
         wndMode = FULLSCREEN;
 
-        unHeight = GetSystemMetrics(SM_CYSCREEN);
-        unWidth = GetSystemMetrics(SM_CXSCREEN);
+        nHeight = GetSystemMetrics(SM_CYSCREEN);
+        nWidth = GetSystemMetrics(SM_CXSCREEN);
     }
 
     void Window::mode(WINDOW_MODES mode)
@@ -34,13 +34,13 @@ namespace dxtk
         }
     }
 
-    void Window::size(uint32_t w, uint32_t h)
+    void Window::size(int32_t w, int32_t h)
     {
-        unWidth = w;
-        unHeight = h;
+        nWidth = w;
+        nHeight = h;
 
-        x = (GetSystemMetrics(SM_CXSCREEN) / 2 ) - (unWidth / 2);
-        y = (GetSystemMetrics(SM_CYSCREEN) / 2 ) - (unHeight / 2);
+        x = (GetSystemMetrics(SM_CXSCREEN) / 2 ) - (nWidth / 2);
+        y = (GetSystemMetrics(SM_CYSCREEN) / 2 ) - (nHeight / 2);
     }
 
     void Window::print(const char* text, int x, int y, ColorEx color)
@@ -91,7 +91,7 @@ namespace dxtk
             unStyle,            // Window style
 
             // Size and position
-            x, y, unWidth, unHeight,
+            x, y, nWidth, nHeight,
 
             NULL,       // Parent window    
             NULL,       // Menu
@@ -101,14 +101,14 @@ namespace dxtk
 
         if(wndMode == WINDOWED)
         {
-            RECT client = { 0, 0, (long)unWidth, (long)unHeight };
+            RECT client = { 0, 0, (long)nWidth, (long)nHeight };
             AdjustWindowRectEx(&client, 
                 GetWindowStyle(hWnd), 
                 GetMenu(hWnd) != NULL, 
                 GetWindowExStyle(hWnd));
 
-            x = (GetSystemMetrics(SM_CXSCREEN) / 2) - (unWidth / 2);
-            y = (GetSystemMetrics(SM_CYSCREEN) / 2) - (unHeight / 2);
+            x = (GetSystemMetrics(SM_CXSCREEN) / 2) - (nWidth / 2);
+            y = (GetSystemMetrics(SM_CYSCREEN) / 2) - (nHeight / 2);
 
             MoveWindow(hWnd, x, y, 
                 client.right - client.left, 
