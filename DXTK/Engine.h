@@ -6,7 +6,7 @@ namespace dxtk
 {
 	class App;
 	class Window;
-	class InputComponent;
+	class Input;
 	class Timer;
 	class Graphics;
 
@@ -28,7 +28,7 @@ namespace dxtk
 			return pWindow.get();
 		}
 
-		InputComponent* input()
+		Input* input()
 		{
 			return pInput.get();
 		}
@@ -56,7 +56,7 @@ namespace dxtk
 		int loop();
 
 		std::unique_ptr<Window> pWindow;
-		std::unique_ptr<InputComponent> pInput;
+		std::unique_ptr<Input> pInput;
 		std::unique_ptr<Graphics> pGraphic;
 		App* pApp;
 

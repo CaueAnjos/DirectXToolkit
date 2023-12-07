@@ -3,7 +3,7 @@
 #include "Types.h"
 #include "Mesh.h"
 #include "Error.h"
-#include "ImputComponent.h"
+#include "Input.h"
 #include "Window.h"
 #include "App.h"
 #include "Graphics.h"

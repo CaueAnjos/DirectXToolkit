@@ -4,7 +4,7 @@
 namespace dxtk
 {
 	class Window;
-	class InputComponent;
+	class Input;
 	class Graphics;
 
 	class App
@@ -23,7 +23,7 @@ namespace dxtk
 			return Engine::pCurrent->window();
 		}
 
-		InputComponent* input()
+		Input* input()
 		{
 			return Engine::pCurrent->input();
 		}

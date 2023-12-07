@@ -1,7 +1,7 @@
 #include "Engine.h"
 #include "Window.h"
 #include "App.h"
-#include "ImputComponent.h"
+#include "Input.h"
 #include "Graphics.h"
 
 namespace dxtk
@@ -30,7 +30,7 @@ namespace dxtk
 		pApp = aplication;
 		pWindow->create();
 
-		pInput = std::make_unique<InputComponent>(pWindow.get());
+		pInput = std::make_unique<Input>(pWindow.get());
 
 		pGraphic->initialize(pWindow.get());
 
@@ -76,7 +76,7 @@ namespace dxtk
 		if(msg == WM_PAINT)
 			pCurrent->pApp->display();
 
-		return CallWindowProc(InputComponent::inputProc, wnd, msg, wParam, lParam);
+		return CallWindowProc(Input::inputProc, wnd, msg, wParam, lParam);
 	}
 
 	int Engine::loop()
