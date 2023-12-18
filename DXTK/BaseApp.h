@@ -19,13 +19,15 @@ namespace dxtk
 	public:
 		virtual void update() override;
 		
-		void buildGeometry();
+		void buildMesh(Mesh& geometry, std::vector<Vertex> vertexList);
 		void buildRootSignature();
 		void buildPipelineState();
 
+		std::unique_ptr<dxtk::Mesh> pGeometry;
+
+		bool bWireframe;
 	private:
 		ID3D12RootSignature* pRootSignature;
 		ID3D12PipelineState* pPipelineState;
-		std::unique_ptr<dxtk::Mesh> pGeometry;
 	};
 }
