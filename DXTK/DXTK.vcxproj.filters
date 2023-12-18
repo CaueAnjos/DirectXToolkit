@@ -13,6 +13,12 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Header Files\AppUtility">
+      <UniqueIdentifier>{1fb9c63e-50fe-4449-b382-944517aa888d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\AppUtility">
+      <UniqueIdentifier>{6cf5a64f-afab-4494-b066-1a0618cab3b3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DXTK.h">
@@ -48,6 +54,9 @@
     <ClInclude Include="Mesh.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="BaseApp.h">
+      <Filter>Header Files\AppUtility</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Window.cpp">
@@ -70,6 +79,9 @@
     </ClCompile>
     <ClCompile Include="Mesh.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BaseApp.cpp">
+      <Filter>Source Files\AppUtility</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
