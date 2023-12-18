@@ -19,6 +19,9 @@
     <Filter Include="Source Files\AppUtility">
       <UniqueIdentifier>{6cf5a64f-afab-4494-b066-1a0618cab3b3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\AppUtility\shaders">
+      <UniqueIdentifier>{e6e929ca-d898-457d-87ed-dcd76988d23f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DXTK.h">
@@ -83,5 +86,13 @@
     <ClCompile Include="BaseApp.cpp">
       <Filter>Source Files\AppUtility</Filter>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="PixelShader.hlsl">
+      <Filter>Header Files\AppUtility\shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="VertexShader.hlsl">
+      <Filter>Header Files\AppUtility\shaders</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>
