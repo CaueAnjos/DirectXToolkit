@@ -12,7 +12,7 @@ void dxtk::BaseApp::finalize()
     pPipelineState->Release();
 }
 
-void dxtk::BaseApp::buildMesh(Mesh& geometry, std::vector<Vertex> vertexList)
+void dxtk::BaseApp::buildMesh(Mesh& geometry, const std::vector<Vertex>& vertexList)
 {
     uint32_t bufferSize = (uint32_t)(vertexList.size() * sizeof(Vertex));
 

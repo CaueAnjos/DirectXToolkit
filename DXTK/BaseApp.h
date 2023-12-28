@@ -20,7 +20,7 @@ namespace dxtk
 		virtual void update() override;
 		virtual	void finalize() override;
 		
-		void buildMesh(Mesh& geometry, std::vector<Vertex> vertexList);
+		void buildMesh(Mesh& geometry, const std::vector<Vertex>& vertexList);
 		void buildRootSignature();
 		void buildPipelineState();
 
